@@ -1,10 +1,12 @@
 # Markets research lab
 
 Python tools I use to follow FX, gold and crypto markets and to test my own intraday strategy:
-a **daily morning brief** generated from market data, a **backtest** of a previous-day high/low breakout,
+a **morning brief published automatically every weekday** (market snapshot, key levels and setups with rule-based
+arguments, macro calendar, headlines), a **backtest** of a previous-day high/low breakout,
 **robustness tests** to check whether the result is real or luck, and a **real-time alert monitor**.
 
-**[→ Latest morning brief](https://alban245.github.io/markets-research-lab/)** · **[→ Full robustness report](results/report.md)**
+**[→ Today's morning brief](https://alban245.github.io/markets-research-lab/)** ·
+**[→ Archive](https://alban245.github.io/markets-research-lab/archive.html)** · **[→ Full robustness report](results/report.md)**
 
 [![Morning brief](results/brief_preview.png)](https://alban245.github.io/markets-research-lab/)
 
@@ -58,7 +60,9 @@ scaled to volatility do better?
 
 | File | What it does |
 |---|---|
-| [`brief.py`](brief.py) | Builds the morning brief: snapshot, key levels, calendar, rule-based observations, charts → `docs/briefs/` |
+| [`brief.py`](brief.py) | Builds the morning brief: at a glance, setups to watch with rule-based arguments for/against, key levels, headlines, week calendar, markets, charts → `docs/` |
+| [`.github/workflows/brief.yml`](.github/workflows/brief.yml) | Runs `brief.py` every weekday at 06:00 UTC on GitHub Actions and publishes it on GitHub Pages |
+| [`news.py`](news.py) | Latest headlines from public RSS feeds (FXStreet, Investing.com, Fed, ECB, CoinDesk), listed without commentary |
 | [`market.py`](market.py) | Market snapshot: changes, 20-day range, 50/200-day moving averages, RSI 14, trend |
 | [`macro_calendar.py`](macro_calendar.py) | Macro calendar from the Forex Factory feed, Paris time |
 | [`charts.py`](charts.py) | Inline SVG charts for the brief (performance bars, 6-month curves with moving averages) |
@@ -76,7 +80,7 @@ pip install -r requirements.txt
 python test_backtest.py   # logic checks
 python backtest.py        # results on the frozen data (add --refresh for fresh data)
 python research.py        # robustness report and charts in results/
-python brief.py           # today's morning brief in docs/briefs/
+python brief.py           # today's morning brief in docs/ (also runs daily on GitHub Actions)
 python monitor.py --once  # today's key levels (without --once: live alerts, macOS)
 ```
 

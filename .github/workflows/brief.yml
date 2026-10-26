@@ -1,0 +1,29 @@
+# Builds the morning brief every weekday and publishes it on GitHub Pages (docs/).
+name: Morning brief
+
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"  # 06:00 UTC = 7am Paris in winter, 8am in summer (GitHub may start a few minutes late)
+  workflow_dispatch:       # "Run workflow" button for a manual run
+
+permissions:
+  contents: write
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python brief.py
+      - name: Publish
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "Morning brief $(TZ=Europe/Paris date +%F)" || exit 0
+          git push

@@ -21,6 +21,7 @@ from macro_calendar import events
 from market import trend
 
 PAUSE = 60  # seconds between checks
+YAHOO_CRYPTO = {"BTCUSDT": "BTC-USD", "ETHUSDT": "ETH-USD"}
 DAILY = {"Bitcoin": "BTC-USD", "Ethereum": "ETH-USD"}  # daily candles for the background trend
 
 
@@ -33,7 +34,11 @@ def notify(title, text):
 def levels(name):
     """Previous day's high/low and the current day's state for one asset."""
     source, symbol, pip, _ = ASSETS[name]
-    days = sessions(download(source, symbol, days=5), source, complete=0)
+    try:
+        candles = download(source, symbol, days=5)
+    except OSError:  # Binance refuses US-hosted servers (HTTP 451): same pair from Yahoo
+        candles = download("yahoo", YAHOO_CRYPTO[symbol], days=5)
+    days = sessions(candles, source, complete=0)
     today, prev = days[-1], next(g for g in reversed(days[:-1]) if len(g) >= 200)
     pdh, pdl = prev["High"].max(), prev["Low"].min()
     return {"pip": pip, "pdh": pdh, "pdl": pdl, "price": today["Close"].iloc[-1],
@@ -91,7 +96,7 @@ def main():
     background = {n: trend(closes[t].dropna()) for n, t in tickers.items()}
     try:
         agenda = events(days=7, impacts=("High",))
-    except OSError:
+    except Exception:
         agenda = []
     sent = set()
     print(f"\nMonitoring {len(ASSETS)} assets every {PAUSE} s. Ctrl+C to stop.", flush=True)
