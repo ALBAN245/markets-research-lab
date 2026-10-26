@@ -74,7 +74,7 @@ def chart_equity(results):
         ax.spines[["top", "right"]].set_visible(False)
         ax.tick_params(labelsize=8)
     axes[0].legend(frameon=False, fontsize=8)
-    fig.suptitle("Same entries, different stop: a fixed 15-pip stop is noise on crypto", fontsize=11, color=RED)
+    fig.suptitle("Same entries, different stop: my original 15-pip stop is noise on crypto", fontsize=11, color=RED)
     fig.tight_layout()
     fig.savefig(RESULTS / "equity_curves.png", dpi=160)
     plt.close(fig)

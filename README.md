@@ -10,11 +10,21 @@ arguments, macro calendar, headlines), a **backtest** of a previous-day high/low
 
 [![Morning brief](results/brief_preview.png)](https://alban245.github.io/markets-research-lab/)
 
-## The question
+## The strategy in one minute
 
-I trade intraday breakouts of the previous day's high (PDH) and low (PDL) on FX majors, gold, Bitcoin and Ethereum,
-with a fixed 15-pip stop and a 30-pip target. Does this rule have an edge once the spread is paid, and does a stop
-scaled to volatility do better?
+I scalp (trades of a few minutes to a few hours) on FX majors, gold, Bitcoin and Ethereum with one rule:
+
+- **Entry**: buy as soon as price breaks above the **previous day's high**, sell as soon as it breaks below the
+  **previous day's low**. These levels are widely watched, so a clean break often brings momentum.
+- **Exit, my original rule**: a **stop-loss 15 pips** away and a **profit target 30 pips** away (a pip is the smallest
+  standard price step: 0.0001 on EUR/USD). I risk 1 to make 2, so I only need to win one trade in three to break even.
+- **Exit, the alternative I test**: the same 1-to-2 ratio, but the stop is sized to volatility: **25 % of the previous
+  day's range** (high minus low), so it widens on volatile days and assets, and tightens on quiet ones.
+
+Results are measured in **R**: 1R is the amount risked on a trade. +2R is a winning trade, −1R a losing one.
+
+**The question**: does my original rule make money once the bid-ask spread is paid, and does a volatility-scaled stop
+do better?
 
 ## Results
 
@@ -22,7 +32,7 @@ scaled to volatility do better?
 
 ![Equity curves](results/equity_curves.png)
 
-| | Fixed 15/30-pip stop | Stop = 25 % of previous day's range |
+| Mean result per trade | My original rule: 15-pip stop, 30-pip target | Volatility-scaled stop (25 % of previous day's range) |
 |---|---|---|
 | Bitcoin (331 trades, 1 year) | **−1.66 R** per trade | **+0.07 R** [−0.07 ; +0.22] |
 | Ethereum (325 trades, 1 year) | **−1.30 R** | **+0.11 R** [−0.03 ; +0.26] |

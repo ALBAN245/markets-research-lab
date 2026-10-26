@@ -36,8 +36,8 @@ ASSETS = {
     "Bitcoin": ("binance", "BTCUSDT", 1.0, 10.0),
     "Ethereum": ("binance", "ETHUSDT", 0.1, 5.0),
 }
-MODES = {"fixed": "Fixed stop 15 pips / target 30 pips",
-         "scaled": "Stop = 25 % of previous day's range / target 2x"}
+MODES = {"fixed": "Original rule: 15-pip stop / 30-pip target",
+         "scaled": "Volatility-scaled: stop = 25 % of previous day's range / target 2x"}
 
 
 def download(source, symbol, days=None):
