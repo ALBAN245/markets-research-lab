@@ -53,7 +53,7 @@ do better?
    the scaled stop.
 4. **Breakouts around US data releases are the worst trades.** FX and gold breakouts triggered between 8:15 and 8:45am
    New York time (NFP, CPI, PCE…) or around FOMC statements lost **−0.43 R** per trade, against −0.17 R for the rest
-   of the day. I learned it live on a PCE release before measuring it: four stops in five minutes.
+   of the day. I first spotted it on a PCE release day, when my rule would have hit four stops in five minutes.
 
 ![Crypto, scaled stop](results/crypto_scaled.png)
 
