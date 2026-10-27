@@ -3,7 +3,7 @@ name: Morning brief
 
 on:
   schedule:
-    - cron: "0 6 * * 1-5"  # 06:00 UTC = 7am Paris in winter, 8am in summer (GitHub may start a few minutes late)
+    - cron: "17 5 * * 1-5"  # 05:17 UTC = 6:17am Paris in winter; GitHub often starts scheduled runs late, an off-peak minute helps
   workflow_dispatch:       # "Run workflow" button for a manual run
 
 permissions:
