@@ -26,6 +26,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs results/brief_preview.png
+          sed -i "s/brief_preview.png?v=[0-9-]*/brief_preview.png?v=$(date +%F)/" README.md  # new URL each day, so no cache serves yesterday's image
+          git add docs results/brief_preview.png README.md
           git commit -m "Morning brief $(TZ=Europe/Paris date +%F)" || exit 0
           git push
