@@ -34,13 +34,17 @@ jobs:
         if: env.SKIP != '1'
       - name: README preview of the brief
         if: env.SKIP != '1'
-        run: google-chrome --headless=new --disable-gpu --hide-scrollbars --window-size=1000,1250 --virtual-time-budget=5000 --screenshot=docs/preview.png "file://$PWD/docs/index.html"
+        run: google-chrome --headless=new --disable-gpu --hide-scrollbars --window-size=1000,1250 --virtual-time-budget=5000 --screenshot=preview-$(TZ=Europe/Paris date +%F).png "file://$PWD/docs/index.html"
       - name: Publish
         if: env.SKIP != '1'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          sed -i "s/preview.png?v=[0-9-]*/preview.png?v=$(date +%F)/" README.md  # new URL each day, so no cache serves yesterday's image
+          # new file name each day: GitHub's image cache can never serve yesterday's preview
+          day=$(TZ=Europe/Paris date +%F)
+          git rm -q --ignore-unmatch "docs/previews/*.png"
+          mkdir -p docs/previews && mv preview-$day.png docs/previews/$day.png
+          sed -i -E "s#\(docs/previews/[0-9-]+\.png\)#(docs/previews/$day.png)#" README.md
           git add docs README.md
           git commit -m "Morning brief $(TZ=Europe/Paris date +%F)" || exit 0
           git push
