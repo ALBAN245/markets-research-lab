@@ -3,8 +3,14 @@ name: Morning brief
 
 on:
   schedule:
-    - cron: "17 5 * * 1-5"  # 05:17 UTC = 6:17am Paris in winter; GitHub often starts scheduled runs late, an off-peak minute helps
+    # GitHub drops scheduled runs at busy times: backup slots, skipped once today's brief exists
+    - cron: "17 5 * * 1-5"   # 6:17am Paris in winter
+    - cron: "47 6 * * 1-5"
+    - cron: "23 8 * * 1-5"
+    - cron: "53 10 * * 1-5"
   workflow_dispatch:       # "Run workflow" button for a manual run
+  push:
+    paths: [".github/workflows/brief.yml"]
 
 permissions:
   contents: write
@@ -14,15 +20,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Skip if today's brief is already published
+        if: github.event_name == 'schedule'
+        run: test -f docs/briefs/$(TZ=Europe/Paris date +%F).html && echo "SKIP=1" >> $GITHUB_ENV || true
       - uses: actions/setup-python@v5
+        if: env.SKIP != '1'
         with:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
+        if: env.SKIP != '1'
       - run: python brief.py
+        if: env.SKIP != '1'
       - name: README preview of the brief
+        if: env.SKIP != '1'
         run: google-chrome --headless=new --disable-gpu --hide-scrollbars --window-size=1000,1250 --virtual-time-budget=5000 --screenshot=docs/preview.png "file://$PWD/docs/index.html"
       - name: Publish
+        if: env.SKIP != '1'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
