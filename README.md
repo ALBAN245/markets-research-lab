@@ -8,7 +8,7 @@ arguments, macro calendar, headlines), a **backtest** of a previous-day high/low
 **[→ Today's morning brief](https://alban245.github.io/markets-research-lab/)** ·
 **[→ Archive](https://alban245.github.io/markets-research-lab/archive.html)** · **[→ Full robustness report](results/report.md)**
 
-[![Today's morning brief, refreshed every weekday](docs/previews/2026-10-28.png)](https://alban245.github.io/markets-research-lab/)
+[![Today's morning brief, refreshed every weekday](docs/previews/2026-10-29.png)](https://alban245.github.io/markets-research-lab/)
 
 ## The strategy in one minute
 
