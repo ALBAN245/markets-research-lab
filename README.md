@@ -72,6 +72,7 @@ do better?
 |---|---|
 | [`brief.py`](brief.py) | Builds the morning brief: at a glance, setups to watch with rule-based arguments for/against, key levels, headlines, week calendar, markets, charts → `docs/` |
 | [`.github/workflows/brief.yml`](.github/workflows/brief.yml) | Runs `brief.py` every weekday morning on GitHub Actions and publishes it on GitHub Pages |
+| [`catchup.sh`](catchup.sh) | Safety net run on my Mac every 30 min: publishes the brief if GitHub's schedule skipped it |
 | [`news.py`](news.py) | Latest headlines from public RSS feeds (FXStreet, Investing.com, Fed, ECB, CoinDesk), listed without commentary |
 | [`market.py`](market.py) | Market snapshot: changes, 20-day range, 50/200-day moving averages, RSI 14, trend |
 | [`macro_calendar.py`](macro_calendar.py) | Macro calendar from the Forex Factory feed, Paris time |
